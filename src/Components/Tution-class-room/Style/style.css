@@ -1,0 +1,109 @@
+
+.side-nav-container{
+    height: 100%;
+    width: 64px;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-color: #00bcd4;
+    overflow-x: hidden;
+    padding-top: 20px;  
+}
+
+.drawer{
+   background-color: #00bcd4;
+}
+.icon-ul{
+   list-style-type: none;
+   padding-left: 0px;
+   padding-top: 0px;
+   margin-left: 0px ;
+   text-align: center;
+   margin-top: 49px;
+  
+}
+
+li{
+    /* margin-top: -8px; */
+}
+
+/* ***************************** */
+
+
+
+
+.main {
+    margin-left: 160px; /* Same as the width of the sidenav */
+    font-size: 28px; /* Increased text to enable scrolling */
+    padding: 0px 10px;
+    padding-top: 45px;
+}
+
+
+
+@media screen and (max-height: 450px) {
+    .sidenav {padding-top: 15px;}
+    .sidenav a {font-size: 18px;}
+}
+
+
+.sideBar{
+    height: 100%;
+    width: 60px;
+    position: fixed;
+    z-index: 1;
+    background-color: #00bcd4;
+    overflow-x: hidden;
+    padding-top: 0px;
+}
+.icons{
+    text-align: center;
+    margin-top: 0px;
+
+}
+
+
+
+.classDiv{
+    /* background-color: rgb(209, 39, 39); */
+    width: 250px;
+    padding-top: 10px;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+
+.rootClassName{
+    margin-top: 64px
+
+}
+
+
+.contentClassName{
+    padding-top: 100px;
+    
+}
+
+.create-class-div{
+    /* padding-top: 61px; */
+    margin-left: 5%; 
+    width: 95%;
+    background-color: transparent;
+    height: 100vh !important;
+
+}
+
+
+.create-class{
+    width: 90%;
+    margin-left: 30px;
+    /* height: 100% !important; */
+    padding: 20px;
+    /* text-align: center; */
+    margin: auto
+}
+
+.TextField{
+    margin-bottom: 30px
+}
