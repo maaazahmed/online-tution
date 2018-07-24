@@ -97,19 +97,9 @@ export default class Drawer extends Component {
                 <Sidebar
                     sidebarClassName="classDiv"
                     rootClassName="rootClassName"
-                    style={{
-                        // position: "absolute",
-                        // top:" 64px",
-                        // left: "0px",
-                        // right:" 0px",
-                        // bottom: "0px",
-                        // overflow: "hidden",
-                    }}
-                    // contentClassName={
-
-                    // }
+                    style={{ boxShadow:"none" }}                     
                     sidebar={
-                        <div >
+                        <div  style={{ boxShadow:"none" }} >
                             <Card style={{ marginBottom: 10 }}>
                                 <CardText expandable={false}>
                                     <h2>Online tution center</h2>
@@ -128,6 +118,12 @@ export default class Drawer extends Component {
                         </Card>
                     </div>
                 </Sidebar>
+                    {/* <div className="CreatebuttonDiv" >
+                    <button
+                        className="Createbutton"  >
+                        C
+                </button>
+                </div> */}
             </div>
         )
     }

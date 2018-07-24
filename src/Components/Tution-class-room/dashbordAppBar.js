@@ -4,16 +4,14 @@ import AppBar from 'material-ui/AppBar';
 import IconButton from 'material-ui/IconButton';
 import IconMenu from 'material-ui/IconMenu';
 import MenuItem from 'material-ui/MenuItem';
-import FlatButton from 'material-ui/FlatButton';
-import Toggle from 'material-ui/Toggle';
+// import FlatButton from 'material-ui/FlatButton';
+// import Toggle from 'material-ui/Toggle';
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
-import NavigationClose from 'material-ui/svg-icons/navigation/close';
 import Avatar from 'material-ui/Avatar';
 import List from 'material-ui/List/List';
 import ListItem from 'material-ui/List/ListItem';
+import history from "../../History"
 /***********************************************/
-import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
-
 
 
 const Logged = (props) => (
@@ -27,14 +25,20 @@ const Logged = (props) => (
       targetOrigin={{horizontal: 'right', vertical: 'top'}}>
     <MenuItem primaryText="Dashboard"
      rightIcon={
-        <svg fill="gray" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+        <svg fill="gray" height="24" 
+        viewBox="0 0 24 24" width="24" 
+        xmlns="http://www.w3.org/2000/svg">
           <path d="M0 0h24v24H0z" fill="none"/>
            <path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"/>
         </svg>
     } />
     <MenuItem primaryText="Create class"
        rightIcon={
-        <svg fill="gray" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+        <svg fill="gray"
+         height="24"
+          viewBox="0 0 24 24" 
+          width="24"
+           xmlns="http://www.w3.org/2000/svg">
             <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/>
             <path d="M0 0h24v24H0z" fill="none"/>
         </svg>
@@ -60,20 +64,20 @@ const Logged = (props) => (
        </g>
      </svg>}/>
 
-     <MenuItem primaryText="Sing uot"
+     <MenuItem
+      onClick={()=>{
+       localStorage.removeItem("aouthToken")
+       history.push("/login")}
+      }
+      primaryText="Sing uot"
        rightIcon={
-          <img src="https://www.iconsdb.com/icons/preview/dim-gray/logout-xxl.png" />
+          <img
+           style={{height:20, 
+            width:20
+          }}
+            src="http://www.avsevent.com/bluadmin/images/icons/icon-logout-g.png" />
        }/>
       </IconMenu>
-     {/* <img 
-       src="https://scontent.fkhi4-1.fna.fbcdn.net/v/t1.0-1/c20.0.160.160/p160x160/16807099_168463856989761_5749670252778263859_n.jpg?_nc_cat=0&_nc_eui2=v1%3AAeHlZpsNOVdaNk3MnF7iH-qqQyrTR91tkSFnZOCH9_Xn7IlrSL1mtl0LFraAcCxuqa4_D52OWndoN9J7dPPmcehVUOwozuAtoWK_DxYIAaCNRbJ5dA-1-CH9xYlTfMzUX1U&oh=08ac920399c925b1a6986a088286ee91&oe=5B6D2959"
-         style={{
-          height:45,
-          width:45,
-          borderRadius:50,
-          marginLeft: -145,
-          marginTop:1
-      }} /> */}
  </div> 
 );
 
@@ -99,7 +103,6 @@ export default class Deshboard_AppBar extends Component {
          <ListItem
           style={{
             marginTop:-10,
-            // marginLeft:100
           }}
           disabled={true}
           rightAvatar={
@@ -121,18 +124,18 @@ export default class Deshboard_AppBar extends Component {
 
   render() {
     return (
-      // <div>
         <AppBar
          style={{
-            position: "fixed", 
+            position: "absolute",
+            top:"0px" ,
             boxShadow:"none",
+
         }} 
         title={ this.letElemnt }
           showMenuIconButton={false}
           iconElementRight={ 
             this.rightButtons
            }/>
-      // </div>
     );
   }
 }

@@ -3,9 +3,9 @@ import TextField from 'material-ui/TextField';
 import { RadioButton, RadioButtonGroup } from 'material-ui/RadioButton';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
-import TextFieldIcon from 'material-ui-textfield-icon';
 import TimePicker from 'material-ui/TimePicker';
-
+import RaisedButton from 'material-ui/RaisedButton';
+import axios from "axios"
 
 
 const styles = {
@@ -33,9 +33,9 @@ const names = [
 ];
 
 const items = [
-    <MenuItem key={1} value={1} primaryText="Primary" />,
-    <MenuItem key={2} value={2} primaryText="Accent" />,
-    <MenuItem key={3} value={3} primaryText="Warn" />,
+    <MenuItem key={1} value={"Primary"} primaryText="Primary" />,
+    <MenuItem key={2} value={"Accent"} primaryText="Accent" />,
+    <MenuItem key={3} value={"Warn"} primaryText="Warn" />,
 ];
 
 class TextFieldExampleSimple extends Component {
@@ -43,17 +43,46 @@ class TextFieldExampleSimple extends Component {
     constructor() {
         super()
         this.state = {
-            values: [],
+            Days: [],
             checked: false,
-            value: null,
+            TitleVal: "",
+            DiscriptionVal: "",
+            classType: "",
+            Recurring_status: "",
+            // howManyDays: "",
+            feeVal: "",
+            SubjectVal: "",
+            startTime: null,
+            EndTime: null,
+
         };
+        this.TextFieldChangeHandler = this.TextFieldChangeHandler.bind(this)
+        this.startTime = this.startTime.bind(this);
+        this.endTime = this.endTime.bind(this);
+        this.createClassHandler = this.createClassHandler.bind(this)
+
     }
 
 
+    startTime(event, time) {
+        this.setState({ startTime: time })
+    }
 
-    handleChange = (event, index, values) => this.setState({ values });
+    endTime(event, time) {
+        this.setState({ EndTime: time })
+    }
 
-    handleChange2 = (event, index, value) => this.setState({ value });
+
+    daysHandleChange = (event, index, Days) => {
+        this.setState({ Days });
+        // console.log(values,"==========")
+    }
+
+    subjectHandleChange = (event, index, value) => {
+        this.setState({ SubjectVal: value })
+        console.log(value, "==========")
+
+    };
 
     menuItems(values) {
         return names.map((name) => (
@@ -67,6 +96,11 @@ class TextFieldExampleSimple extends Component {
         ));
     }
 
+
+
+
+
+
     updateCheck() {
         this.setState((oldState) => {
             return {
@@ -76,15 +110,61 @@ class TextFieldExampleSimple extends Component {
     }
 
 
-    render() {
+    TextFieldChangeHandler(event) {
+        this.setState({
+            [event.target.name]: event.target.value,
+        })
+    }
 
-        const { values } = this.state;
+    _onChange(event, value) {
+        this.setState({
+            [event.target.name]: event.target.value
+        })
+
+    }
+
+
+    createClassHandler() {
+        let aouthToken = "Bearer"+localStorage.getItem("aouthToken")
+        console.log(aouthToken)
+        let obj = {
+            TitleVal: this.state.TitleVal,
+            Days: this.state.Days,
+            DiscriptionVal: this.state.DiscriptionVal,
+            classType: this.state.classType,
+            Recurring_status: this.state.Recurring_status,
+            howManyDays: this.state.howManyDays,
+            feeVal: this.state.feeVal,
+            SubjectVal: this.state.SubjectVal,
+            startTime: this.state.startTime,
+            EndTime: this.state.EndTime,
+        }
+        axios.post("http://localhost:8000/user/createPost",
+            obj,
+            {
+                headers: { aouthToken },
+            },
+        )
+            .then((res) => {
+                console.log(res, "================")
+            }).catch((err) => {
+                alert(err)
+                console.log(err)
+            })
+    }
+
+    render() {
+        const { Days } = this.state;
         return (
             <div>
                 <div className="TextField">
                     <TextField
                         hintText="Title"
                         fullWidth={true}
+                        value={this.state.TitleVal}
+                        onChange={this.TextFieldChangeHandler}
+                        name="TitleVal"
+
                     />
                 </div>
                 <br />
@@ -92,36 +172,52 @@ class TextFieldExampleSimple extends Component {
                     <TextField
                         hintText="Discription"
                         fullWidth={true}
-                    // multiLine={true}
+                        value={this.state.DiscriptionVal}
+                        onChange={this.TextFieldChangeHandler}
+                        name="DiscriptionVal"
                     />
                 </div>
                 <div className="TextField"  >
-                    <span  >Your class is: </span>
-                    <span style={{ marginLeft: 245 }} >Recurring status: </span>
-                    <br />
-                    <br />
-                    <RadioButtonGroup style={{ float: "left", }} name="class-type" labelPosition="right" >
-                        <RadioButton
-                            style={{ width: '70%', marginBottom: 10 }}
-                            value="public"
-                            label="Public" />
+                    <div className="radioButtonDiv" >
 
-                        <RadioButton
-                            style={{ width: '0%' }}
-                            value="private"
-                            label="Private" />
-                    </RadioButtonGroup>
-                    <RadioButtonGroup style={{ float: "left", marginLeft: 250, }} name="Recurring-status" labelPosition="right" >
-                        <RadioButton
-                            style={{ width: '70%', marginBottom: 10 }}
-                            value="recurring"
-                            label="Recurring" />
+                        <div style={{ width: "50%" }}>
+                            <div>
+                                <p>Your class is ?:</p>
+                                <RadioButtonGroup
+                                    className="radioButton"
+                                    name="classType"
+                                    onChange={this._onChange.bind(this)}
+                                    labelPosition="right" >
+                                    <RadioButton
+                                        value="public"
+                                        label="Public" />
+                                    <RadioButton
+                                        value="private"
+                                        label="Private" />
+                                </RadioButtonGroup>
+                            </div>
+                        </div>
+                        <div style={{ width: "50%" }} >
+                            <div >
+                                <p>Recurring status:</p>
+                                <RadioButtonGroup
+                                    className="radioButton"
+                                    onChange={this._onChange.bind(this)}
+                                    name="Recurring_status"
+                                    labelPosition="right" >
+                                    <RadioButton
 
-                        <RadioButton
-                            style={{ width: '0%' }}
-                            value="onetime"
-                            label="One.time" />
-                    </RadioButtonGroup>
+                                        value="recurring"
+                                        label="Recurring" />
+
+                                    <RadioButton
+                                        style={{ marginLeft: 20 }}
+                                        value="onetime"
+                                        label="One.time" />
+                                </RadioButtonGroup>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <br />
                 <br />
@@ -131,11 +227,11 @@ class TextFieldExampleSimple extends Component {
                     <SelectField
                         multiple={true}
                         hintText="How many days ?"
-                        value={values}
-                        onChange={this.handleChange}
+                        value={Days}
+                        onChange={this.daysHandleChange}
                         fullWidth={true}
                     >
-                        {this.menuItems(values)}
+                        {this.menuItems(Days)}
                     </SelectField>
                 </div>
                 <div className="TextField" >
@@ -143,39 +239,51 @@ class TextFieldExampleSimple extends Component {
                         hintText="Fee"
                         fullWidth={true}
                         type="number"
+                        value={this.state.feeVal}
+                        onChange={this.TextFieldChangeHandler}
+                        name="feeVal"
                     />
                 </div>
                 <div className="TextField" >
                     <div>
                         <SelectField
-                            value={this.state.value}
-                            onChange={this.handleChange2}
+                            value={this.state.SubjectVal}
+                            onChange={this.subjectHandleChange}
                             floatingLabelText="Subject"
                             fullWidth={true}>
                             {items}
                         </SelectField>
                     </div>
                 </div>
-                <div className="TextField" style={{margin: "auto"}} >
+                <div className="TextField" style={{ margin: "auto" }} >
                     <div style={{ display: "flex", flexWrap: "nowrap", }} >
                         <TimePicker
+                            onChange={this.startTime}
+                            value={this.state.startTime}
                             hintText="Start Time"
-                            style={{ display: "inline-block", width:"100%", margin:5 }}
-                            textFieldStyle={{ width:"101%" }}
+                            style={{ display: "inline-block", width: "100%", margin: 5 }}
+                            textFieldStyle={{ width: "101%" }}
                         />
                         <TimePicker
+                            onChange={this.endTime} value={this.state.EndTime}
                             hintText="End time"
-                            style={{ display: "inline-block", width:"100%",margin:5 }}
-                            textFieldStyle={{  width:"101%" }}
+                            style={{ display: "inline-block", width: "100%", margin: 5 }}
+                            textFieldStyle={{ width: "101%" }}
                         />
-                    <br/>
+                        <br />
                     </div>
                 </div>
-
-
-                <button>
-                    Submit
-                </button>
+                <div>
+                </div>
+                <br />
+                <div className="finalButtonDiv" >
+                    <RaisedButton
+                        label='Create'
+                        primary={true}
+                        className='finalButton'
+                        onClick={this.createClassHandler}
+                    />
+                </div>
             </div>
         )
     }
